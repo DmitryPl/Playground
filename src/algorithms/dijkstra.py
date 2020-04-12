@@ -12,10 +12,10 @@ class Edge:
 
 
 def dijkstra(graph: Graph, start: int, end: int) -> Optional[float]:
+    """ Finding minimum path from "start" node to "end" node """
     heap = Heap()
     heap.push(Edge(0, start))
     visited: List[bool] = [False] * len(graph)
-
     while not heap.empty():
         min_edge: Edge = heap.pop()
         if visited[min_edge.dst]:

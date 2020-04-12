@@ -16,6 +16,7 @@ class Matrix:
 
     @staticmethod
     def weight_matrix(points: List[Tuple[float, float]]) -> Matrix:
+        """ adjacency_matrix """
         weight_matrix = Matrix(len(points))
         for idx in range(0, weight_matrix.dimension):
             for idy in range(idx + 1, weight_matrix.dimension):
@@ -25,6 +26,7 @@ class Matrix:
 
     @staticmethod
     def savings_matrix(weight_matrix: Matrix, point: int) -> Matrix:
+        """ for clarke-wright algorithm """
         savings_matrix = Matrix(len(weight_matrix))
         for idx in range(0, savings_matrix.dimension):
             for idy in range(idx + 1, savings_matrix.dimension):
