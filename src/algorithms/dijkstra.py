@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import List, Optional
 
-from src.structures.graph import Graph
+from src.structures.graph import GraphM
 from src.structures.heap import Heap
 
 
@@ -11,7 +11,7 @@ class Edge:
     dst: int
 
 
-def dijkstra(graph: Graph, start: int, end: int) -> Optional[float]:
+def dijkstra(graph: GraphM, start: int, end: int) -> Optional[float]:
     """ Finding minimum path from "start" node to "end" node """
     heap = Heap()
     heap.push(Edge(0, start))
@@ -31,7 +31,7 @@ def dijkstra(graph: Graph, start: int, end: int) -> Optional[float]:
 
 
 def test():
-    g = Graph.create_from(['a', 'b', 'c', 'd', 'e', 'f'])
+    g = GraphM.create_from(['a', 'b', 'c', 'd', 'e', 'f'])
     g.set_connect_asymmetric(0, 1, 5)
     g.set_connect_symmetric(0, 2, 10)
     g.set_connect_asymmetric(0, 4, 2)

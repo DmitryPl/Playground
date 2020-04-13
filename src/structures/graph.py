@@ -28,7 +28,28 @@ class Edge:
 
 
 @dataclass
-class Graph:
+class GraphL:
+    """ Graph over list adjacency """
+    nodes: int
+    edges: List[Tuple[int, int, float]] = field(default_factory=list)
+
+    def __len__(self) -> int:
+        return self.nodes
+
+    def __str__(self) -> str:
+        return f'{self.edges}'
+
+    def __repr__(self):
+        return str(self)
+
+    def add_edge(self, u: int, v: int, w: float) -> None:
+        """ Add edge """
+        self.edges.append((u, v, w))
+
+
+@dataclass
+class GraphM:
+    """ Graph over matrix adjacency """
     nodes: List[Node]
     adjacency_matrix: Matrix = field(init=False)
 
@@ -48,12 +69,12 @@ class Graph:
         return str(self)
 
     @staticmethod
-    def create_from(nodes: List[T]) -> Graph:
+    def create_from(nodes: List[T]) -> GraphM:
         """ Creates graph from list of something """
         temp = [Node(0, 0)] * len(nodes)
         for idx, data in enumerate(nodes):
             temp[idx] = Node(data, idx)
-        return Graph(temp)
+        return GraphM(temp)
 
     def index_of(self, data: T) -> Optional[Node]:
         """ Get node by data """

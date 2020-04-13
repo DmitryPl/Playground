@@ -1,3 +1,3 @@
-from src.algorithms.dijkstra import test
+from src.algorithms.bellman_ford import test
 
 test()
