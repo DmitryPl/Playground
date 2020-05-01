@@ -1,5 +1,7 @@
 package algorithms
 
+import "fmt"
+
 type TwoOpt struct {
 	Length float64
 	Tour   []int
@@ -23,12 +25,12 @@ func swap(tour []int, x int, y int) []int {
 
 func (opt TwoOpt) Optimize() (float64, []int) {
 	iteration, gain := 0, 1.0
-	// fmt.Println(fmt.Sprintf("%d: %f", iteration, opt.Length))
+	fmt.Println(fmt.Sprintf("%d: %f", iteration, opt.Length))
 	for gain > 0 {
 		gain = opt.twoOpt()
 		opt.Length -= gain
 		iteration++
-		// fmt.Println(fmt.Sprintf("%d: %f", iteration, opt.Length))
+		fmt.Println(fmt.Sprintf("%d: %f", iteration, opt.Length))
 	}
 	return opt.Length, opt.Tour
 }
