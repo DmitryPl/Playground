@@ -3,7 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import List, TypeVar, Optional, Tuple
 
-from src.structures.matrix import Matrix
+from python.src.structures import Matrix
 
 T = TypeVar('T')
 

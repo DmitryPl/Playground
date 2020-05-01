@@ -1,4 +1,4 @@
-from src.structures.graph import GraphM
+from python.src.structures.graph import GraphM
 
 
 def breadth_first_search(graph: GraphM, start: int):
