@@ -1,3 +1,3 @@
-from python.src.algorithms.bellman_ford import test
+from src.algorithms.bellman_ford import test
 
 test()

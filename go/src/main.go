@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	size := 2000
+	size := 500
 	points := algorithms.Generator(size)
 	matrix := algorithms.Adjacency(points)
 	length, tour := algorithms.Greedy(matrix)
