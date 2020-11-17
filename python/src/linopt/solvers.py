@@ -7,12 +7,15 @@ from src.linopt.utils import armijo, check_precision, gss, relaxation, fibonacci
 array = np.ndarray
 
 
-def solver(x0: array,
-           f: Callable,
-           f_grad: Callable,
-           gamma: Callable,
-           iterations=70,
-           precision=1e-6) -> Dict[str, list]:
+def solver(
+        x0: array,
+        f: Callable,
+        f_grad: Callable,
+        gamma: Callable,
+        iterations=70,
+        precision=1e-6
+) -> Dict[str, list]:
+    """ Общая модель солверов на спуске """
     x = x0.copy()
     x_array, f_array = [x], [f(x)]
     k = 0
