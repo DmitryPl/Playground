@@ -43,23 +43,13 @@ def relaxation_solver(x0: array, f: Callable, f_grad: Callable, q: array, b: arr
     return solver(x0, f, f_grad, lambda x: relaxation(q, b, x, f_grad), iterations, precision)
 
 
-def fibonacci_solver(x0: array, f: Callable, q: array, b: array, iterations=70, precision=1e-6) -> Dict[str, list]:
-    x = x0.copy()
-    x_array, f_array = [x], [f(x)]
-    k = 0
-    fl, fst = fib_list(15), [True]
-
-    while k < iterations and check_precision(precision, x_array, f):
-        fg = werewolf(fst)
-        x = x + fibonacci(q, b, x, -10., 10., fl, fg) * fg
-        x_array.append(x)
-        f_array.append(f(x))
-        k += 1
-
-    print(f'{k} iterations is taken, f(x^k) = {f_array[-1]}')
-    return {'x_k': x_array, 'f_k': f_array}
-
-
 def werewolf_solver(x0: array, f: Callable, q: array, b: array, iterations=70, precision=1e-6):
     fst, snd = [True], [True]
     return solver(x0, f, lambda x: -werewolf(fst), lambda x: changeable(x, q, b, snd), iterations, precision)
+
+
+def fibonacci_solver(x0: array, f: Callable, q: array, b: array, iterations=70, precision=1e-6):
+    fst, snd = [True], [True]
+    fl = fib_list(15)
+    gm = lambda x: fibonacci(q, b, x, -10., 10., fl, werewolf(snd))  # noqa
+    return solver(x0, f, lambda x: -werewolf(fst), gm, iterations, precision)
