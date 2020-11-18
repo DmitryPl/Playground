@@ -58,11 +58,11 @@ def fibonacci_solver(x0: array, f: Callable, q: array, b: array, iterations=70, 
     return solver(x0, f, lambda x: -werewolf(fst), gm, iterations, precision)
 
 
-def grad_solver(x0, f, f_grad, iterations=70, precision=1e-6):
+def grad_solver(x0: array, f: Callable, f_grad: Callable, iterations=70, precision=1e-6):
     return solver(x0, f, f_grad, lambda x: armijo(x, 10., -.5, .01, f, f_grad), iterations, precision)
 
 
-def coord_solver(x0, f, f_grad, iterations=70, precision=1e-6):
+def coord_solver(x0: array, f: Callable, f_grad: Callable, iterations=70, precision=1e-6):
     x = x0.copy()
     x_array, f_array = [x], [f(x)]
     alpha, epsilon, theta = 10., 0.01, -.5
