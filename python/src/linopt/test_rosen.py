@@ -1,11 +1,16 @@
 import numpy as np
 
-from src.linopt.rosen import rosen2d, rosen2d_grad
-from src.linopt.solvers import solver
+from src.linopt.draw import draw_rosen
+from src.linopt.solvers import coord_solver, grad_solver
+from src.linopt.utils import rosen, rosen_der
 
 x_a = np.array([0, 0])
 x_b = np.array([-1, -1])
 x_c = np.array([-0.9, -0.8])
 x_d = np.array([-0.9, 1.1])
 
-solver(x_a, rosen2d, rosen2d_grad, lambda x: 0.001)
+# zeros = solver(x_a, rosen, rosen_der, lambda x: 1e-4, 1e5, 1e-10)
+first = grad_solver(x_a, rosen, rosen_der, 1e5, 1e-10)
+second = coord_solver(x_a, rosen, rosen_der, 1e5, 1e-10)
+
+draw_rosen(first, second)

@@ -1,10 +1,10 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-from src.linopt.utils import quad_2d_xy, quad, quad_grad
+from src.linopt.utils import quad_2d_xy, quad, quad_grad, rosen2d_xy
 
 
-def draw(q, b, x_0, x_star, first, second):
+def draw_gradients(q, b, x_0, x_star, first, second):
     # prepare image
     _, axes = plt.subplots(1, 2, figsize=(15, 5))
     # plot contours
@@ -61,6 +61,54 @@ def draw(q, b, x_0, x_star, first, second):
         x_k_residual_copy = x_data[j] - np.atleast_2d(x_star)
         # check identity of the arrays
         np.testing.assert_array_equal(x_k_residual_copy, x_k_residual)
+
+        axes[0][j].set_title('Function residual')
+        axes[0][j].plot(f_k_residual, )
+        axes[1][j].set_title('Logarithmic function residual')
+        axes[1][j].plot(np.log(f_k_residual), )
+        axes[2][j].set_title('Value residual (Euclidean norm)')
+        axes[2][j].plot(np.arange(N), np.linalg.norm(x_k_residual, axis=1))
+        axes[3][j].set_title('Logarithmic value residual (Euclidean norm)')
+        axes[3][j].plot(np.arange(N), np.log(np.linalg.norm(x_k_residual, axis=1)))
+
+    plt.show()
+
+
+def draw_rosen(first, second):
+    # plot Rosenbrock contours
+    x, y = np.meshgrid(np.linspace(-2, 2, 400), np.linspace(-2, 3, 400))  # noqa
+    z_rosen = rosen2d_xy(x, y)
+
+    # minimum
+    f_star = 0
+    x_star = np.array([1, 1])
+
+    _, axes = plt.subplots(1, 2, figsize=(18, 10))
+    for k in range(2):
+        axes[k].plot([1], [1], 'x')
+        axes[k].contour(x, y, z_rosen, np.logspace(-1, 3, 10))
+
+    for i, data in enumerate([first, second]):
+        x_data = np.array(data['x_k'])
+        axes[i].set_title('Contours of Rosenbrock function')
+        axes[i].plot(x_data[:, 0], x_data[:, 1], )
+
+    # residuals
+    _, axes = plt.subplots(4, 2, figsize=(15, 10))
+    plt.tight_layout()
+
+    # for both columns:
+    for j, data in enumerate([first, second]):
+        # draw grid in all sub-plots
+        for m in range(4):
+            axes[m][j].grid()
+
+        x_data = np.array(data['x_k'])
+        f_k_residual = np.array(data['f_k']) - f_star
+
+        N = len(f_k_residual)  # noqa
+        # broadcasting!
+        x_k_residual = x_data - x_star
 
         axes[0][j].set_title('Function residual')
         axes[0][j].plot(f_k_residual, )

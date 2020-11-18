@@ -56,3 +56,29 @@ def fibonacci_solver(x0: array, f: Callable, q: array, b: array, iterations=70, 
     fl = fib_list(15)
     gm = lambda x: fibonacci(q, b, x, -10., 10., fl, werewolf(snd))  # noqa
     return solver(x0, f, lambda x: -werewolf(fst), gm, iterations, precision)
+
+
+def grad_solver(x0, f, f_grad, iterations=70, precision=1e-6):
+    return solver(x0, f, f_grad, lambda x: armijo(x, 10., -.5, .01, f, f_grad), iterations, precision)
+
+
+def coord_solver(x0, f, f_grad, iterations=70, precision=1e-6):
+    x = x0.copy()
+    x_array, f_array = [x], [f(x)]
+    alpha, epsilon, theta = 10., 0.01, -.5
+    f_star, tmp = 0, [True]
+    k = 0
+
+    while k < iterations:
+        fg, gamma = werewolf(tmp), alpha
+        while f(x + gamma * fg) > f(x) - epsilon * gamma * (np.dot(f_grad(x), fg)):
+            gamma *= theta
+        x = x + gamma * fg
+        x_array.append(x)
+        f_array.append(f(x))
+        if abs(f(x_array[k]) - f_star) < precision:
+            break
+        k += 1
+
+    print(f'{k} iterations is taken, f(x^k) = {f_array[-1]}')
+    return {'x_k': x_array, 'f_k': f_array}

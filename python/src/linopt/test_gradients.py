@@ -1,6 +1,6 @@
 import numpy as np
 
-from src.linopt.draw import draw
+from src.linopt.draw import draw_gradients
 from src.linopt.solvers import const_step_solver, armijo_solver, gss_solver, relaxation_solver, werewolf_solver, \
     fibonacci_solver
 from src.linopt.utils import quad, quad_grad
@@ -37,4 +37,4 @@ x_0 = x_star - [8, -1.5]
 first = fibonacci_solver(x_0, lambda x: quad(Q, b, x), Q, b)
 second = werewolf_solver(x_0, lambda x: quad(Q, b, x), Q, b)
 
-draw(Q, b, x_0, x_star, first, second)
+draw_gradients(Q, b, x_0, x_star, first, second)
