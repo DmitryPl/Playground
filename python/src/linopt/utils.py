@@ -35,7 +35,7 @@ def rosen(x: array):
     return np.sum(100.0 * (x[1:] - x[:-1] ** 2.0) ** 2.0 + (1 - x[:-1]) ** 2.0, axis=0)
 
 
-def rosen_der(x: array) -> array:
+def rosen_grad(x: array) -> array:
     """The gradient of The Rosenbrock function"""
     xm = x[1: -1]
     xm_m1 = x[: - 2]
@@ -132,3 +132,28 @@ def werewolf(state: List[bool] = [True]) -> array:  # noqa
 def changeable(x: array, q: array, b: array, state: List[bool]):
     vec = werewolf(state)
     return -(q.dot(x).dot(vec) + q.dot(vec).dot(x) + 2 * b.dot(vec)) / (2 * q.dot(vec).dot(vec))
+
+
+def linear_convergence(f_k_residual):
+    y = np.log(f_k_residual)
+    x = np.arange(len(f_k_residual))
+    x_mean, y_mean = np.mean(x), np.mean(y)
+    xx_mean, xy_mean = np.mean(x.dot(x)), np.mean(x.dot(y))
+    a = (xy_mean - x_mean * y_mean) / (xx_mean - x_mean * x_mean)
+    b = y_mean - a * x_mean
+    q = np.exp(a)
+    c = np.exp(b)
+    print(f"f(x_k) - f* = c * q^k = {c:.2f} * {q:.2f}^k")
+    return x, y
+
+
+def sublinear_convergence(f_k_residual, conv: Callable):
+    y = f_k_residual[10:60]
+    x = np.arange(len(f_k_residual[10:60]))
+    x = conv(x)
+    x_mean, y_mean = np.mean(x), np.mean(y)
+    xx_mean, xy_mean = np.mean(x.dot(x)), np.mean(x.dot(y))
+    a = (xy_mean - x_mean * y_mean) / (xx_mean - x_mean * x_mean)
+    b = y_mean - a * x_mean
+    print(f"f(x_k) - f* = a; b = {a:.2f}; {b:.2f}")
+    return x, y

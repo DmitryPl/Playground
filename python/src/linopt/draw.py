@@ -1,3 +1,5 @@
+from typing import Tuple, List
+
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -39,7 +41,6 @@ def draw_gradients(q, b, x_0, x_star, first, second):
         x_data.append(_x_data)
 
     print(f'Function value in optimal point (minimum), f* = {quad(q, b, x_star)}')
-    # plt.show() - not needed if %matplotlib magic is used
 
     # additional build extra plots for convergence rates
     _, axes = plt.subplots(4, 2, figsize=(15, 10))
@@ -118,5 +119,144 @@ def draw_rosen(first, second):
         axes[2][j].plot(np.arange(N), np.linalg.norm(x_k_residual, axis=1))
         axes[3][j].set_title('Logarithmic value residual (Euclidean norm)')
         axes[3][j].plot(np.arange(N), np.log(np.linalg.norm(x_k_residual, axis=1)))
+
+    plt.show()
+
+
+def draw_lines(lines: List[Tuple[str, np.ndarray]]):
+    for line in lines:
+        plt.plot(line[1], label=line[0])
+    plt.title(f'Function residual')
+    plt.legend()
+    plt.show()
+
+    for line in lines:
+        plt.plot(np.log(line[1]), label=line[0])
+    plt.title(f'Logarithmic function residual')
+    plt.legend()
+    plt.show()
+
+
+def draw_constr_line(q, b, a, d, x_0, x_star, data):
+    # plot contours
+    x, y = np.meshgrid(np.linspace(-5, 15, 400), np.linspace(-10, 3, 100))
+    z_quad = quad_2d_xy(q, b, x, y)
+
+    line_x2 = np.array([-10, 3])
+    line_x1 = (-d - a[1] * line_x2) / a[0]
+
+    # some step-size
+    gamma = 0.6
+    # levels for contour lines
+    levels = quad(q, b, x_star) + np.linspace(0, 8, 12) ** 2
+
+    _, ax = plt.subplots(1, 1, figsize=(12, 8))
+    ax.plot(x_star[0], x_star[1], '*')
+    ax.plot(x_0[0], x_0[1], 'or')
+    ax.plot((x_0[0], (x_0 - gamma * quad_grad(q, b, x_0))[0]),
+            (x_0[1], (x_0 - gamma * quad_grad(q, b, x_0))[1]), 'r')
+    ax.plot(line_x1, line_x2, 'g')
+    ax.contour(x, y, z_quad, levels)
+    ax.axis('equal')
+
+    x_data = []
+    # convert list of vectors to 2D-array of dimension N x 2
+    _x_data = np.array(data['x_k'])
+    # plot on second image
+    ax.plot(_x_data[:, 0], _x_data[:, 1])
+    x_data.append(_x_data)
+
+    print(f'Function value in optimal point (minimum), f* = {quad(q, b, x_star)}')
+
+    _, axes = plt.subplots(4, 1, figsize=(15, 10))
+    plt.tight_layout()
+    # grids on all subplots
+
+    for m in range(4):
+        axes[m].grid()
+
+    x = x_data[0][-1]
+    # residual f(x_k) - f* (with broadcasting)
+    f_k_residual = data['f_k'] - quad(q, b, x)
+    n = len(f_k_residual)
+    # calculate residuals for vectors x_k - x* by two ways:
+    # 1 - by dubbing x* and subtracting arrays of the same size
+    x_k_residual = x_data[0] - np.kron(np.ones((n, 1)), x)
+    # 2 - by broadcasting
+    x_k_residual_copy = x_data[0] - np.atleast_2d(x)
+    # check identity of the arrays
+    np.testing.assert_array_equal(x_k_residual_copy, x_k_residual)
+
+    axes[0].set_title('Function residual')
+    axes[0].plot(f_k_residual)
+    axes[1].set_title('Logarithmic function residual')
+    axes[1].plot(np.log(abs(f_k_residual)))
+    axes[2].set_title('Value residual (Euclidean norm)')
+    axes[2].plot(np.arange(n), np.linalg.norm(x_k_residual, axis=1))
+    axes[3].set_title('Logarithmic value residual (Euclidean norm)')
+    axes[3].plot(np.arange(n), np.log(np.linalg.norm(x_k_residual, axis=1)))
+
+    plt.show()
+
+
+def draw_constr_circle(q, b, r, center, x_0, x_star, data):
+    X, Y = np.meshgrid(np.linspace(-5, 15, 400), np.linspace(-10, 3, 100))  # noqa
+    Z_quad = quad_2d_xy(q, b, X, Y)  # noqa
+
+    # some step-size
+    gamma = 0.6
+    # levels for contour lines
+    levels = quad(q, b, x_star) + np.linspace(0, 8, 12) ** 2
+
+    # circle
+    alpha = np.linspace(0, 2 * np.pi, 100)
+    circle_x1 = r * np.cos(alpha) + center[0]
+    circle_x2 = r * np.sin(alpha) + center[1]
+
+    _, ax = plt.subplots(1, 1, figsize=(12, 10))
+    ax.plot(x_star[0], x_star[1], '*')
+    ax.plot(x_0[0], x_0[1], 'or')
+    ax.plot((x_0[0], (x_0 - gamma * quad_grad(q, b, x_0))[0]),
+            (x_0[1], (x_0 - gamma * quad_grad(q, b, x_0))[1]), 'r')
+    ax.plot(circle_x1, circle_x2, 'g')
+    ax.contour(X, Y, Z_quad, levels)
+    ax.axis('equal')
+
+    x_data = []
+    # convert list of vectors to 2D-array of dimension N x 2
+    _x_data = np.array(data['x_k'])
+    # plot on second image
+    ax.plot(_x_data[:, 0], _x_data[:, 1])
+    x_data.append(_x_data)
+
+    print(f'Function value in optimal point (minimum), f* = {quad(q, b, x_star)}')
+
+    _, axes = plt.subplots(4, 1, figsize=(15, 10))
+    plt.tight_layout()
+    # grids on all subplots
+
+    for m in range(4):
+        axes[m].grid()
+
+    x = x_data[0][-1]
+    # residual f(x_k) - f* (with broadcasting)
+    f_k_residual = data['f_k'] - quad(q, b, x)
+    n = len(f_k_residual)
+    # calculate residuals for vectors x_k - x* by two ways:
+    # 1 - by dubbing x* and subtracting arrays of the same size
+    x_k_residual = x_data[0] - np.kron(np.ones((n, 1)), x)
+    # 2 - by broadcasting
+    x_k_residual_copy = x_data[0] - np.atleast_2d(x)
+    # check identity of the arrays
+    np.testing.assert_array_equal(x_k_residual_copy, x_k_residual)
+
+    axes[0].set_title('Function residual')
+    axes[0].plot(f_k_residual)
+    axes[1].set_title('Logarithmic function residual')
+    axes[1].plot(np.log(abs(f_k_residual)))
+    axes[2].set_title('Value residual (Euclidean norm)')
+    axes[2].plot(np.arange(n), np.linalg.norm(x_k_residual, axis=1))
+    axes[3].set_title('Logarithmic value residual (Euclidean norm)')
+    axes[3].plot(np.arange(n), np.log(np.linalg.norm(x_k_residual, axis=1)))
 
     plt.show()

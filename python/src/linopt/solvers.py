@@ -82,3 +82,55 @@ def coord_solver(x0: array, f: Callable, f_grad: Callable, iterations=70, precis
 
     print(f'{k} iterations is taken, f(x^k) = {f_array[-1]}')
     return {'x_k': x_array, 'f_k': f_array}
+
+
+def line_projection(
+        x0: array,
+        a: array,
+        d: float,
+        f: Callable,
+        f_grad: Callable,
+        iterations=70,
+        precision=1e-6
+) -> Dict[str, list]:
+    x = x0.copy()
+    data = {'x_k': [x], 'f_k': [f(x)]}
+    k = 0
+
+    while k < iterations and check_precision(precision, data['x_k'], f):
+        gamma = 1 / (k + 1)
+        x = x + gamma * (-f_grad(x))
+        x = x - a * (a.dot(x) + d) / (a.dot(a))
+        data['x_k'].append(x)
+        data['f_k'].append(f(x))
+        k += 1
+
+    print(f'{k} iterations is taken, f(x^k) = {data["f_k"][-1]}')
+    return data
+
+
+def circle_proj_solver(
+        x0: array,
+        c: array,
+        r: float,
+        f: Callable,
+        f_grad: Callable,
+        iterations=70,
+        precision=1e-6
+) -> Dict[str, list]:
+    x = x0.copy()
+    data = {'x_k': [x], 'f_k': [f(x)]}
+    k = 0
+
+    while k < iterations:
+        gamma = 1 / (k + 1)
+        x = x + gamma * (-f_grad(x))
+        x = c + (x - c) * r / np.sqrt((x - c) @ (x - c))
+        data['x_k'].append(x)
+        data['f_k'].append(f(x))
+        if np.linalg.norm(data['x_k'][k] - data['x_k'][k - 1]) < precision:
+            break
+        k += 1
+
+    print(f'{k} iterations is taken, f(x^k) = {data["f_k"][-1]}')
+    return data
