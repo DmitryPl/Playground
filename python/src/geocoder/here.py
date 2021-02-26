@@ -46,18 +46,18 @@ class HereGeocoder:
 
     @staticmethod
     def get_city(result: dict) -> Optional[str]:
-        if 'items' not in result or not result['items'] or 'city' not in result['items'][0]:
+        if 'items' not in result or not result['items']:
             return None
-        return result['items'][0]['city']
+        return result['items'][0]['address']['city']
 
     @staticmethod
     def get_state(result: dict) -> Optional[str]:
-        if 'items' not in result or not result['items'] or 'state' not in result['items'][0]:
+        if 'items' not in result or not result['items']:
             return None
-        return result['items'][0]['state']
+        return result['items'][0]['address']['state']
 
     @staticmethod
     def get_postal_code(result: dict) -> Optional[str]:
-        if 'items' not in result or not result['items'] or 'postalCode' not in result['items'][0]:
+        if 'items' not in result or not result['items']:
             return None
-        return result['items'][0]['postalCode']
+        return result['items'][0]['address']['postalCode']
