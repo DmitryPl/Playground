@@ -24,34 +24,39 @@ class YandexGeocoder:
 
     @staticmethod
     def get_point(result: dict) -> Optional[tuple[float, float]]:
-        if 'response' not in result or not result['response']['featureMember']:
+        if 'response' not in result or not result['response']['GeoObjectCollection']['featureMember']:
             return None
-        loc = result['response']['featureMember'][0]['GeoObject']['Point']['pos'].split(' ')
-        return float(loc[1]), float(loc[2])
+        tmp = result['response']['GeoObjectCollection']
+        loc = tmp['featureMember'][0]['GeoObject']['Point']['pos'].split(' ')
+        return float(loc[1]), float(loc[0])
 
     @staticmethod
     def get_address(result: dict) -> Optional[str]:
-        if 'response' not in result or not result['response']['featureMember']:
+        if 'response' not in result or not result['response']['GeoObjectCollection']['featureMember']:
             return None
-        return result['response']['featureMember'][0]['GeoObject']['metaDataProperty']['GeocoderMetaData']['text']
+        tmp = result['response']['GeoObjectCollection']
+        return tmp['featureMember'][0]['GeoObject']['metaDataProperty']['GeocoderMetaData']['text']
 
     @staticmethod
     def get_city(result: dict) -> Optional[str]:
-        if 'response' not in result or not result['response']['featureMember']:
+        if 'response' not in result or not result['response']['GeoObjectCollection']['featureMember']:
             return None
-        addr = result['response']['featureMember'][0]['GeoObject']['metaDataProperty']['GeocoderMetaData']['Address']
-        return next(x for x in addr['Components'] if x['kind'] == 'locality')
+        tmp = result['response']['GeoObjectCollection']
+        addr = tmp['featureMember'][0]['GeoObject']['metaDataProperty']['GeocoderMetaData']['Address']
+        return next(x['name'] for x in addr['Components'] if x['kind'] == 'locality')
 
     @staticmethod
     def get_state(result: dict) -> Optional[str]:
-        if 'response' not in result or not result['response']['featureMember']:
+        if 'response' not in result or not result['response']['GeoObjectCollection']['featureMember']:
             return None
-        addr = result['response']['featureMember'][0]['GeoObject']['metaDataProperty']['GeocoderMetaData']['Address']
-        return next(x for x in addr['Components'] if x['kind'] == 'province')
+        tmp = result['response']['GeoObjectCollection']
+        addr = tmp['featureMember'][0]['GeoObject']['metaDataProperty']['GeocoderMetaData']['Address']
+        return next(x['name'] for x in addr['Components'] if x['kind'] == 'province')
 
     @staticmethod
     def get_postal_code(result: dict) -> Optional[str]:
-        if 'response' not in result or not result['response']['featureMember']:
+        if 'response' not in result or not result['response']['GeoObjectCollection']['featureMember']:
             return None
-        addr = result['response']['featureMember'][0]['GeoObject']['metaDataProperty']['GeocoderMetaData']['Address']
+        tmp = result['response']['GeoObjectCollection']
+        addr = tmp['featureMember'][0]['GeoObject']['metaDataProperty']['GeocoderMetaData']['Address']
         return addr['postal_code']
