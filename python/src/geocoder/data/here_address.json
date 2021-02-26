@@ -1,0 +1,48 @@
+{
+  "items": [
+    {
+      "title": "улица Вавилова 57, Москва, Россия, 117292",
+      "id": "here:af:streetsection:pOdYIRdqP2K7nGKxIUHliC:CggIBCDk-tDAARABGgI1Nyhk",
+      "resultType": "houseNumber",
+      "houseNumberType": "PA",
+      "address": {
+        "label": "улица Вавилова 57, Москва, Россия, 117292",
+        "countryCode": "RUS",
+        "countryName": "Россия",
+        "state": "Центральный федеральный округ",
+        "county": "Москва",
+        "city": "Москва",
+        "district": "МО Академический",
+        "street": "улица Вавилова",
+        "postalCode": "117292",
+        "houseNumber": "57"
+      },
+      "position": {
+        "lat": 55.69066,
+        "lng": 37.56151
+      },
+      "access": [
+        {
+          "lat": 55.69102,
+          "lng": 37.56082
+        }
+      ],
+      "mapView": {
+        "west": 37.55991,
+        "south": 55.68976,
+        "east": 37.56311,
+        "north": 55.69156
+      },
+      "scoring": {
+        "queryScore": 1.0,
+        "fieldScore": {
+          "city": 1.0,
+          "streets": [
+            1.0
+          ],
+          "houseNumber": 1.0
+        }
+      }
+    }
+  ]
+}

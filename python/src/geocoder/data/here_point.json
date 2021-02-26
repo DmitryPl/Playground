@@ -1,0 +1,39 @@
+{
+  "items": [
+    {
+      "title": "Ленинский проспект 85А, Москва, Россия, 119261",
+      "id": "here:af:streetsection:9QLvU26IoY4qjC3Pj1fM1D:CgcIBCCp688zEAEaAzg1QQ",
+      "resultType": "houseNumber",
+      "houseNumberType": "PA",
+      "address": {
+        "label": "Ленинский проспект 85А, Москва, Россия, 119261",
+        "countryCode": "RUS",
+        "countryName": "Россия",
+        "state": "Центральный федеральный округ",
+        "county": "Москва",
+        "city": "Москва",
+        "district": "МО Ломоносовский",
+        "street": "Ленинский проспект",
+        "postalCode": "119261",
+        "houseNumber": "85А"
+      },
+      "position": {
+        "lat": 55.67992,
+        "lng": 37.53727
+      },
+      "access": [
+        {
+          "lat": 55.67984,
+          "lng": 37.53748
+        }
+      ],
+      "distance": 16,
+      "mapView": {
+        "west": 37.53301,
+        "south": 55.68002,
+        "east": 37.54045,
+        "north": 55.68458
+      }
+    }
+  ]
+}

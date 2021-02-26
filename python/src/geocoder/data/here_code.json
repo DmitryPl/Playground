@@ -1,0 +1,35 @@
+{
+  "items": [
+    {
+      "title": "117292, Москва, Центральный федеральный округ, Россия",
+      "id": "here:cm:namedplace:22101570",
+      "resultType": "locality",
+      "localityType": "postalCode",
+      "address": {
+        "label": "117292, Москва, Центральный федеральный округ, Россия",
+        "countryCode": "RUS",
+        "countryName": "Россия",
+        "state": "Центральный федеральный округ",
+        "county": "Москва",
+        "city": "Москва",
+        "postalCode": "117292"
+      },
+      "position": {
+        "lat": 55.68466,
+        "lng": 37.56614
+      },
+      "mapView": {
+        "west": 37.55236,
+        "south": 55.67775,
+        "east": 37.57852,
+        "north": 55.69177
+      },
+      "scoring": {
+        "queryScore": 1.0,
+        "fieldScore": {
+          "postalCode": 1.0
+        }
+      }
+    }
+  ]
+}

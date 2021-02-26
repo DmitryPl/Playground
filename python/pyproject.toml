@@ -8,6 +8,7 @@ authors = ["Dmitriy Pleshcheev <dimychspb7@mail.ru>"]
 python = "^3.9"
 pandas = "^1.2.2"
 matplotlib = "^3.3.4"
+loguru = "^0.5.3"
 
 [tool.poetry.dev-dependencies]
 
