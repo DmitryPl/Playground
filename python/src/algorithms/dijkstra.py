@@ -1,8 +1,8 @@
 from dataclasses import dataclass
 from typing import List, Optional
 
-from python.src.structures.graph import GraphM
-from python.src.structures import Heap
+from src.structures.graph import GraphM
+from src.structures.heap import Heap
 
 
 @dataclass(order=True)

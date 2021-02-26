@@ -1,8 +1,8 @@
 from typing import List
 
-from python.src.structures.graph import Edge
-from python.src.structures import Heap
-from python.src.structures import Matrix
+from src.structures.graph import Edge
+from src.structures.heap import Heap
+from src.structures.matrix import Matrix
 
 
 def prim(weight_matrix: Matrix) -> List[Edge]:

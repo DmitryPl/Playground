@@ -1,6 +1,6 @@
 from typing import List, Optional
 
-from python.src.structures.graph import GraphL
+from src.structures.graph import GraphL
 
 
 def bellman_ford(graph: GraphL, start: int) -> Optional[List[float]]:
