@@ -11,6 +11,7 @@ matplotlib = "^3.3.4"
 loguru = "^0.5.3"
 aiohttp = "^3.7.4"
 orjson = "^3.5.1"
+polyline = "^1.4.0"
 
 [tool.poetry.dev-dependencies]
 
