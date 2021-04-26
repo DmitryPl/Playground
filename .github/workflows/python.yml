@@ -26,4 +26,4 @@ jobs:
 
     - name: Lint with Pylint
       run: |
-        find . -type f -name "*.py" | xargs pylint --fail-under=3.0
+        find . -type f -name "*.py" | xargs pylint --fail-under=9.0
